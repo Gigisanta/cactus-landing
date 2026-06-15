@@ -83,8 +83,16 @@
       el.style.transitionDelay = `${(i % 4) * 70}ms`;
       io.observe(el);
     });
+
+    // cascada escalonada: cada hijo entra con un retardo creciente
+    $$('[data-stagger]').forEach(el => {
+      Array.from(el.children).forEach((ch, i) => {
+        ch.style.transitionDelay = `${Math.min(i, 9) * 70}ms`;
+      });
+      io.observe(el);
+    });
   } else {
-    $$('[data-reveal]').forEach(el => el.classList.add('is-in'));
+    $$('[data-reveal], [data-stagger]').forEach(el => el.classList.add('is-in'));
   }
 
   /* ============================================================
@@ -102,6 +110,7 @@
       const v = target * eased;
       el.textContent = isFloat ? v.toFixed(decimals) : Math.round(v);
       if (t < 1) requestAnimationFrame(tick);
+      else (el.closest('.metric__num') || el).classList.add('is-done');
     };
     requestAnimationFrame(tick);
   };

@@ -1488,12 +1488,51 @@ button { font: inherit; cursor: pointer; }
 .fade-in {
   animation: fadeUp .8s var(--ease-out) both;
 }
-[data-reveal] { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+[data-reveal] { opacity: 0; transform: translateY(28px) scale(.985); transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
 [data-reveal].is-in { opacity: 1; transform: none; }
+
+/* cascada escalonada de hijos (delays vía JS) */
+[data-stagger] > * { opacity: 0; transform: translateY(26px) scale(.99); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+[data-stagger].is-in > * { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   [data-reveal] { opacity: 1; transform: none; }
+  [data-stagger] > * { opacity: 1; transform: none; }
+}
+
+/* Aurora respirando en la sección de contacto */
+.section--dark::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(55% 50% at 12% 18%, rgba(247,207,71,.16), transparent 62%),
+    radial-gradient(50% 55% at 88% 92%, rgba(97,195,157,.20), transparent 62%);
+  animation: auroraShift 16s ease-in-out infinite;
+}
+@keyframes auroraShift {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: .85; }
+  50%      { transform: translate(2.5%, -2.5%) scale(1.1); opacity: 1; }
+}
+
+/* Logo mark — micro-interacción */
+.brand-logo__mark { transition: transform .4s var(--ease-spring), box-shadow .3s; }
+.brand-logo:hover .brand-logo__mark { transform: rotate(10deg) scale(1.06); box-shadow: 0 4px 14px rgba(0,103,91,.4); }
+
+/* Pop del número al terminar de contar */
+@keyframes metricPop {
+  0% { transform: scale(1); }
+  45% { transform: scale(1.09); }
+  100% { transform: scale(1); }
+}
+.metric__num.is-done { animation: metricPop .55s var(--ease-spring); transform-origin: left center; }
+
+/* Float idle de la brief card (solo mobile, sin parallax JS) */
+@media (max-width: 979px) {
+  .hero__card { animation: cardFloat 6s ease-in-out infinite; }
+}
+@keyframes cardFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
 }
 
 /* ============================================================
