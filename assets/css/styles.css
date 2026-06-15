@@ -793,6 +793,22 @@ button { font: inherit; cursor: pointer; }
 }
 .card--service:hover::before { width: 8px; }
 .card--service:hover { transform: translateY(-6px); box-shadow: var(--shadow-2); }
+/* numeral fantasma editorial */
+.card--service::after {
+  content: attr(data-num);
+  position: absolute; right: 6px; bottom: -38px;
+  font-family: var(--f-serif); font-weight: 800;
+  font-size: 188px; line-height: 1; letter-spacing: -.05em;
+  color: var(--c-verde); opacity: .05;
+  pointer-events: none; z-index: 0;
+  transition: opacity .3s, transform .4s var(--ease-spring);
+}
+.card--service:hover::after { opacity: .08; transform: translateY(-6px); }
+.card--service > * { position: relative; z-index: 1; }
+.card--service--retiro::after { color: #c9a52e; opacity: .1; }
+.card--service--retiro:hover::after { opacity: .15; }
+.card--service--vida::after { color: var(--c-menta); opacity: .09; }
+.card--service--vida:hover::after { opacity: .14; }
 .card--service__num {
   position: absolute; top: 28px; right: 32px;
   font-family: var(--f-mono);
@@ -1024,10 +1040,13 @@ button { font: inherit; cursor: pointer; }
   font-size: 13px;
   color: white;
   width: 0; /* grows via JS */
-  transition: width 1.2s var(--ease-out);
+  transition: width 1.2s var(--ease-out), filter .2s;
   overflow: hidden;
   white-space: nowrap;
+  cursor: default;
 }
+.allocation__seg:hover { filter: brightness(1.08); }
+.allocation__seg + .allocation__seg { box-shadow: inset 2px 0 0 rgba(255,255,255,.3); }
 .allocation__seg:nth-child(1) { background: var(--c-verde); }
 .allocation__seg:nth-child(2) { background: var(--c-celeste); }
 .allocation__seg:nth-child(3) { background: var(--c-amarillo); color: var(--c-verde-deep); }
@@ -1080,9 +1099,9 @@ button { font: inherit; cursor: pointer; }
   border: 1px solid var(--line);
   position: relative;
   overflow: hidden;
-  transition: transform .3s var(--ease-spring);
+  transition: transform .3s var(--ease-spring), box-shadow .3s;
 }
-.metric:hover { transform: translateY(-3px); }
+.metric:hover { transform: translateY(-3px); box-shadow: var(--shadow-1); }
 .metric::before {
   content: ''; position: absolute; left: 0; top: 0;
   width: 3px; height: 100%;
