@@ -67,6 +67,7 @@ img, svg { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
 ul { padding: 0; margin: 0; list-style: none; }
 button { font: inherit; cursor: pointer; }
+::selection { background: var(--c-amarillo); color: var(--c-verde-deep); }
 :focus-visible { outline: 2px solid var(--c-verde); outline-offset: 3px; border-radius: 3px; }
 .section--dark :focus-visible, .foot :focus-visible { outline-color: var(--c-amarillo); }
 
@@ -292,6 +293,36 @@ button { font: inherit; cursor: pointer; }
 }
 .nav__drawer .btn { margin-top: 14px; align-self: flex-start; }
 .nav__drawer[hidden] { display: none; } /* respeta el atributo hidden (UA [hidden] queda pisado por display:flex) */
+
+/* Barra de progreso de lectura — bajo el nav sticky */
+.scroll-progress {
+  position: absolute; left: 0; right: 0; bottom: -1px;
+  height: 3px; z-index: 51;
+  background: linear-gradient(90deg, var(--c-coral), var(--c-amarillo));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform .1s linear;
+}
+
+/* Botón volver-arriba (FAB) */
+.to-top {
+  position: fixed; z-index: 60;
+  right: 20px; bottom: max(20px, env(safe-area-inset-bottom));
+  width: 46px; height: 46px;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--c-verde); color: var(--c-amarillo);
+  border: 1.5px solid var(--c-verde);
+  box-shadow: var(--shadow-2);
+  opacity: 0; visibility: hidden;
+  transform: translateY(12px) scale(.9);
+  transition: opacity .3s, transform .3s var(--ease-spring), visibility .3s, background .2s;
+}
+.to-top.is-visible { opacity: 1; visibility: visible; transform: none; }
+.to-top:hover { background: var(--c-verde-deep); transform: translateY(-2px); }
+.to-top svg { width: 18px; height: 18px; }
+@media (min-width: 720px) {
+  .to-top { right: 28px; bottom: max(28px, env(safe-area-inset-bottom)); width: 50px; height: 50px; }
+}
 
 /* ============================================================
    HERO — versión animada

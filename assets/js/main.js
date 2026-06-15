@@ -31,12 +31,31 @@
   const nav = $('#nav');
   const burger = $('#burger');
   const drawer = $('#drawer');
+  const progress = $('#scroll-progress');
+  const toTop = $('#to-top');
 
-  if (nav) {
-    const onScroll = () => nav.classList.toggle('is-scrolled', window.scrollY > 24);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+  // un solo handler de scroll, throttled con rAF
+  let ticking = false;
+  const onScroll = () => {
+    const y = window.scrollY;
+    if (nav) nav.classList.toggle('is-scrolled', y > 24);
+    if (progress) {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = `scaleX(${max > 0 ? Math.min(y / max, 1) : 0})`;
+    }
+    if (toTop) toTop.classList.toggle('is-visible', y > 600);
+    ticking = false;
+  };
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+  }, { passive: true });
+  onScroll();
+
+  if (toTop) {
+    toTop.addEventListener('click', () =>
+      window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' }));
   }
+
   if (burger && drawer) {
     const setOpen = (open) => {
       burger.classList.toggle('is-open', open);
@@ -152,8 +171,10 @@
      ============================================================ */
   const slides = $$('.tcarousel__slide');
   const dots = $$('.tcarousel__dot');
+  const tcarousel = $('.tcarousel');
   if (slides.length > 1) {
     let cur = 0;
+    let timer;
     const show = (i) => {
       slides.forEach((s, j) => s.classList.toggle('is-active', j === i));
       dots.forEach((d, j) => {
@@ -163,8 +184,36 @@
       });
       cur = i;
     };
-    dots.forEach(d => d.addEventListener('click', () => show(+d.dataset.i)));
-    setInterval(() => show((cur + 1) % slides.length), 5500);
+    const go = (i) => show((i + slides.length) % slides.length);
+    const start = () => { if (!prefersReduced) timer = setInterval(() => go(cur + 1), 5500); };
+    const stop = () => clearInterval(timer);
+    const reset = () => { stop(); start(); };
+
+    dots.forEach(d => d.addEventListener('click', () => { go(+d.dataset.i); reset(); }));
+
+    if (tcarousel) {
+      // pausar autoplay en hover/focus
+      tcarousel.addEventListener('mouseenter', stop);
+      tcarousel.addEventListener('mouseleave', start);
+      tcarousel.addEventListener('focusin', stop);
+      tcarousel.addEventListener('focusout', start);
+      // flechas de teclado
+      tcarousel.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { go(cur + 1); reset(); }
+        else if (e.key === 'ArrowLeft') { go(cur - 1); reset(); }
+      });
+      // swipe táctil (mobile)
+      let x0 = null;
+      tcarousel.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+      tcarousel.addEventListener('touchend', (e) => {
+        if (x0 === null) return;
+        const dx = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dx) > 40) { go(dx < 0 ? cur + 1 : cur - 1); reset(); }
+        x0 = null;
+      }, { passive: true });
+    }
+
+    start();
   }
 
   /* ============================================================
