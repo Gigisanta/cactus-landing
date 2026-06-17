@@ -4,23 +4,30 @@
    Animaciones: typewriter, gradient shift, scroll-trigger, parallax
    ============================================================ */
 
+/* ============================================================
+   DESIGN TOKENS — espejo del Cactus Wealth Design System
+   (tokens/colors · typography · spacing). Fuente única de verdad,
+   compartida por todas las apps Cactus. Mantener sincronizado con
+   "Cactus Wealth Design System/tokens/*".
+   ============================================================ */
 :root {
-  /* Paleta Cactus exacta (del PDF "Programa de Identidad") */
+  /* ---- Paleta Cactus (8 oficiales del manual de identidad) ---- */
   --c-verde:    #00675b;
   --c-amarillo: #f7cf47;
   --c-coral:    #ec7356;
-  --c-coral-deep: #bd4e2d; /* coral con contraste AA para texto pequeño */
   --c-lila:     #d395c1;
   --c-rojo:     #ff163b;
   --c-celeste:  #5ab1f3;
   --c-menta:    #61c39d;
   --c-grafito:  #464646;
 
-  /* Variantes para profundidad */
+  /* ---- Variantes de profundidad ---- */
   --c-verde-deep: #004a41;
   --c-verde-soft: #4a897f;
+  --c-coral-deep: #bd4e2d; /* coral AA para texto pequeño */
+  --c-ink-green:  #0a221f; /* casi-negro verdoso (footer / ink) */
 
-  /* Neutros cálidos */
+  /* ---- Neutros cálidos (paper) ---- */
   --bg:         #fbf8f2;
   --bg-alt:     #f3efe5;
   --bg-paper:   #ffffff;
@@ -30,24 +37,64 @@
   --line:       rgba(70,70,70,.14);
   --line-soft:  rgba(70,70,70,.08);
 
-  /* Tipografía */
+  /* ---- Aliases semánticos ---- */
+  --color-brand:        var(--c-verde);
+  --color-brand-strong: var(--c-verde-deep);
+  --color-accent:       var(--c-amarillo);
+  --color-danger:       var(--c-rojo);
+  --color-success:      var(--c-menta);
+  --color-info:         var(--c-celeste);
+  --surface-page:  var(--bg);
+  --surface-alt:   var(--bg-alt);
+  --surface-card:  var(--bg-paper);
+  --surface-dark:  var(--c-verde);
+  --surface-ink:   var(--c-ink-green);
+  --text-strong:   var(--ink);
+  --text-body:     var(--ink-soft);
+  --text-mute:     var(--ink-mute);
+  --text-on-dark:  rgba(255,255,255,.85);
+  --text-on-brand: var(--c-amarillo);
+  --border-default: var(--line);
+  --border-faint:   var(--line-soft);
+  --focus-ring:     var(--c-verde);
+
+  /* ---- Tipografía ---- */
   --f-serif: 'Playfair Display', 'Times New Roman', Georgia, serif;
   --f-sans:  'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --f-mono:  'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-display: var(--f-serif);
+  --font-body:    var(--f-sans);
+  --font-mono:    var(--f-mono);
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700; --fw-black: 800;
+  --fs-display: clamp(42px, 8vw, 96px);
+  --fs-h1:   clamp(32px, 5vw, 58px);
+  --fs-h2:   28px;
+  --fs-h3:   20px;
+  --fs-lead: clamp(16px, 1.7vw, 19px);
+  --fs-body: 17px; --fs-sm: 15px; --fs-xs: 13px; --fs-label: 11px;
+  --lh-tight: .98; --lh-snug: 1.12; --lh-normal: 1.55;
+  --ls-display: -.025em; --ls-heading: -.015em; --ls-label: .14em; --ls-mono: .04em;
 
-  /* Escala */
-  --r-sm: 6px;
-  --r-md: 12px;
-  --r-lg: 20px;
-  --r-xl: 32px;
+  /* ---- Espaciado (base 4px) ---- */
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-5:20px;
+  --space-6:24px; --space-8:32px; --space-10:40px; --space-12:48px; --space-16:64px;
+  --space-20:80px; --space-25:100px;
+  --container: 1200px;
+  --gutter: 24px;
+
+  /* ---- Radios ---- */
+  --r-sm: 6px; --r-md: 12px; --r-lg: 20px; --r-xl: 32px; --r-pill: 999px;
+
+  /* ---- Sombras (cálidas, en capas) ---- */
   --shadow-1: 0 1px 2px rgba(0,0,0,.04), 0 6px 18px rgba(0,0,0,.06);
   --shadow-2: 0 4px 8px rgba(0,0,0,.06), 0 24px 60px rgba(0,0,0,.12);
   --shadow-3: 0 8px 16px rgba(0,0,0,.08), 0 40px 100px rgba(0,0,0,.15);
-  --container: 1200px;
+  --shadow-brand: 0 12px 32px rgba(0,103,91,.35);
 
-  /* Easings */
-  --ease-out: cubic-bezier(.2,.7,.2,1);
+  /* ---- Motion ---- */
+  --ease-out:    cubic-bezier(.2,.7,.2,1);
   --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+  --dur-fast: .2s; --dur-base: .3s; --dur-slow: .8s;
 }
 
 * { box-sizing: border-box; }
@@ -188,7 +235,7 @@ button { font: inherit; cursor: pointer; }
 .btn--primary:hover {
   background: var(--c-verde-deep);
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0,103,91,.35);
+  box-shadow: var(--shadow-brand);
 }
 .btn--primary::before {
   content: ''; position: absolute; inset: 0;
@@ -1583,4 +1630,85 @@ button { font: inherit; cursor: pointer; }
 @media (max-width: 380px) {
   .hero__chips li { font-size: 11px; padding: 5px 10px; }
   .btn { padding: 12px 18px; font-size: 14px; }
+}
+
+/* ============================================================
+   v4 · MÁS VIDA — capa de micro-motion adicional.
+   Todo se apaga solo con prefers-reduced-motion (reset global arriba).
+   ============================================================ */
+
+/* Perspectiva para los tilts 3D (service cards + posts) */
+.grid--3, .feed { perspective: 1000px; }
+
+/* Botones magnéticos: el transform lo aplica JS, sólo preparamos GPU */
+.btn--primary, .to-top { will-change: transform; }
+
+/* Service cards: tilt 3D (JS) + glow al hover.
+   transition re-declarada acá para ganarle a [data-stagger] > * (tilt ágil). */
+.card--service {
+  transform-style: preserve-3d; will-change: transform;
+  transition: transform .3s var(--ease-spring), box-shadow .3s;
+}
+.card--service:hover { box-shadow: var(--shadow-2), 0 0 0 1px rgba(0,103,91,.06); }
+.card--service__num { transition: transform .6s var(--ease-spring), color .3s; }
+.card--service:hover .card--service__num { transform: translateY(-4px); }
+
+/* Barra de acento de cada métrica: crece al revelarse la grilla */
+.metric::before {
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform .9s var(--ease-spring);
+}
+.metrics.is-in .metric::before { transform: scaleY(1); }
+.metrics.is-in .metric:nth-child(1)::before { transition-delay: .05s; }
+.metrics.is-in .metric:nth-child(2)::before { transition-delay: .15s; }
+.metrics.is-in .metric:nth-child(3)::before { transition-delay: .25s; }
+.metrics.is-in .metric:nth-child(4)::before { transition-delay: .35s; }
+
+/* Posts del feed: halo al hover */
+.post { transition: transform .25s var(--ease-spring), box-shadow .3s; }
+.post:hover { box-shadow: 0 20px 44px rgba(0,0,0,.20); }
+
+/* Perks de contacto + trust: lift sutil */
+.cta__perk, .trust { transition: transform .3s var(--ease-spring), box-shadow .3s; }
+.cta__perk:hover { transform: translateY(-3px); }
+.trust:hover { transform: translateY(-2px); box-shadow: var(--shadow-1); }
+
+/* Frase del manifiesto: barra de acento que crece al hover */
+.frases__item { position: relative; overflow: hidden; }
+.frases__item::after {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; background: var(--c-verde);
+  transform: scaleY(0); transform-origin: bottom;
+  transition: transform .4s var(--ease-spring);
+}
+.frases__item:hover::after { transform: scaleY(1); }
+
+/* Spotlight que sigue al cursor sobre la brief card del hero (var por JS) */
+.hero__card::before {
+  content: ''; position: absolute; inset: 0; z-index: 3;
+  pointer-events: none;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, -20%),
+    rgba(247,207,71,.18), transparent 60%);
+  opacity: 0; transition: opacity .4s;
+}
+.hero__card:hover::before { opacity: 1; }
+
+/* Brillo periódico que cruza el logo-mark */
+.brand-logo__mark::before {
+  content: ''; position: absolute; inset: 0; z-index: 2;
+  background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.5) 50%, transparent 62%);
+  transform: translateX(-130%);
+  animation: markSheen 7s ease-in-out infinite;
+}
+@keyframes markSheen {
+  0%, 72% { transform: translateX(-130%); }
+  88%, 100% { transform: translateX(130%); }
+}
+
+/* Eyebrow dot del hero: latido de respiración además del pulse */
+.hero .eyebrow__dot { animation: pulse 2s ease infinite, dotBreathe 4s ease-in-out infinite; }
+@keyframes dotBreathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.35); }
 }
