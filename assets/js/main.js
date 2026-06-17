@@ -251,6 +251,10 @@
         const rotX = -y * 2;
         // mantener el rotate base -1.8deg
         card.style.transform = `rotateY(${rotY}deg) rotateX(${rotX}deg) rotate(-1.8deg) translateZ(0)`;
+        // spotlight que sigue al cursor sobre la card
+        const cr = card.getBoundingClientRect();
+        card.style.setProperty('--mx', `${((e.clientX - cr.left) / cr.width) * 100}%`);
+        card.style.setProperty('--my', `${((e.clientY - cr.top) / cr.height) * 100}%`);
       }
     });
     hero.addEventListener('mouseleave', () => {
@@ -273,6 +277,38 @@
         p.style.transform = `scale(1.03) rotateX(${-y * max}deg) rotateY(${x * max}deg)`;
       });
       p.addEventListener('mouseleave', () => { p.style.transform = ''; });
+    });
+  }
+
+  /* ============================================================
+     9b. Service cards: tilt 3D (mismo gesto que los posts)
+     ============================================================ */
+  if (window.matchMedia('(pointer: fine)').matches && !prefersReduced) {
+    $$('.card--service').forEach(card => {
+      const max = 4; // grados
+      card.addEventListener('mousemove', (e) => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width - 0.5;
+        const y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transform = `translateY(-6px) rotateX(${-y * max}deg) rotateY(${x * max}deg)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  }
+
+  /* ============================================================
+     9c. Botones magnéticos: atracción sutil hacia el cursor
+     ============================================================ */
+  if (window.matchMedia('(pointer: fine)').matches && !prefersReduced) {
+    $$('.btn--primary, .to-top').forEach(btn => {
+      const strength = 0.32;
+      btn.addEventListener('mousemove', (e) => {
+        const r = btn.getBoundingClientRect();
+        const mx = e.clientX - (r.left + r.width / 2);
+        const my = e.clientY - (r.top + r.height / 2);
+        btn.style.transform = `translate(${mx * strength}px, ${my * strength}px)`;
+      });
+      btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
     });
   }
 
