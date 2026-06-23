@@ -1850,3 +1850,82 @@ button { font: inherit; cursor: pointer; }
   0%, 100% { transform: scale(1); }
   50%      { transform: scale(1.35); }
 }
+
+/* ============================================================
+   FINAL VISUAL HARMONY PASS — deterministic alignment and spacing
+   ============================================================ */
+@media (min-width: 720px) { .to-top { display: none; } }
+
+.section { scroll-margin-top: 96px; }
+.scroll-progress { display: none; }
+.section__head { margin-bottom: 40px; }
+.grid { gap: 24px; }
+
+.hero__orb { opacity: .26; }
+.hero__title em::after { left: .04em; right: -.04em; }
+.hero__title .hl { padding: .04em .20em .035em; }
+.hero__title .hl::before { left: -7px; width: 3px; height: 78%; }
+.hero__lede { max-width: 56ch; }
+.hero__chips { padding-top: 20px; }
+.hero__mini { min-height: 82px; animation: none; }
+
+.frases__item {
+  min-height: 112px;
+  display: flex;
+  align-items: center;
+}
+
+.feed { gap: 16px; }
+.post { padding: 20px; }
+
+.allocation { padding: 36px; gap: 36px; }
+.allocation__chips { margin-top: 18px; }
+.allocation__bar { width: 100%; }
+.allocation__seg[data-key="liq"] { width: 20%; }
+.allocation__seg[data-key="fx"] { width: 40%; }
+.allocation__seg[data-key="eq"] { width: 25%; }
+.allocation__seg[data-key="ar"] { width: 15%; }
+.allocation__legend-dot { width: 12px; height: 12px; }
+
+.metric { padding: 28px 26px; }
+.metric__num {
+  min-height: 56px;
+  align-items: flex-end;
+}
+.metric:nth-child(4) .metric__num {
+  font-size: clamp(30px, 3vw, 40px);
+  letter-spacing: -.02em;
+}
+.trust {
+  display: grid;
+  grid-template-columns: minmax(260px, .9fr) minmax(360px, 1.2fr);
+  align-items: center;
+  gap: 24px;
+}
+.trust__sub { margin: 0; max-width: 62ch; }
+
+.cta__links { gap: 6px; }
+.cta__links a {
+  padding: 12px 14px;
+  border: 1px solid transparent;
+  background: rgba(250,248,239,.65);
+}
+.cta__links a:last-of-type { border-bottom-color: transparent; }
+
+.foot { padding-bottom: 34px; }
+.foot .brand-stars { opacity: .08 !important; }
+.foot__top { gap: 42px; }
+.foot__bottom { align-items: flex-start; gap: 36px; }
+.foot__bottom .foot__small:last-child { text-align: right; max-width: 44ch; }
+
+@media (min-width: 720px) {
+  .foot__top { grid-template-columns: minmax(280px, 1.5fr) repeat(3, minmax(140px, 1fr)); }
+  .foot__bottom { align-items: flex-start; }
+}
+
+@media (min-width: 980px) {
+  .hero { padding: 68px 0 104px; }
+  .hero__cards { transform: translateY(-34px); }
+  .hero__minis { transform: rotate(-1.2deg); }
+  .allocation { grid-template-columns: minmax(280px, .9fr) minmax(520px, 1.35fr); }
+}
