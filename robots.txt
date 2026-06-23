@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+# Client market briefs are shared by direct link only — keep them unindexed.
+Disallow: /brief/
 
 Sitemap: https://cactuswealth.maat.work/sitemap.xml
