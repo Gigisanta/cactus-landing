@@ -1738,7 +1738,7 @@ button { font: inherit; cursor: pointer; }
     align-items: center;
     padding: 76px 0 88px;
   }
-  .hero__inner { padding-left: 0; min-width: 0; }
+  .hero__inner { padding-left: max(24px, calc((100vw - var(--container)) / 2 + 24px)); min-width: 0; }
   .hero__card { margin-top: 0; justify-self: center; align-self: center; max-width: 430px; box-shadow: var(--shadow-2); }
   .hero__scroll-cue { display: inline-flex; }
   .cta__inner { grid-template-columns: 1.05fr 1fr; align-items: stretch; gap: 40px; }
