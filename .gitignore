@@ -2,3 +2,6 @@
 .vercel
 node_modules/
 *.log
+# security-audit 2026-07-25: nunca commitear archivos de entorno
+.env*
+!.env.example
